@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Projeto 9</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
+    <script src='main.js'></script>
+
+    <style>
+         body {
+            transition: background-color 0.5s;
+             font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+        }
+
+        #GifFrio {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 300px;
+    height: auto;
+}
+#GifQuente {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 400px;
+    height: auto;
+}
+
+#GifAmeno {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    width: 300px;
+    height: auto;
+}
+
+#qualtemp {
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+    
+</head>
+
+<body>
+    <h1 id="h1">Conversor de Temperatura</h1>
+    <h2 id="h2">Digite um valor de temperatura numa das caixas e clique em "Converter" para ver o valor em diferentes unidades.</h2>
+    
+    <form>
+
+        <table align="center" border="0" cellpadding="10">
+       
+            <tr>
+                <td> <label for="C">Celsius</label></td>
+                <td><input type="number" id="C" oninput="updateEmoji(this.value)"></td>
+                <td>°C</td>
+            </tr>
+        
+            <tr>
+                <td><label for="F">Fahrenheit</label></td>
+                <td><input type="number" id="F"></td>
+                <td>°F</td>
+            </tr>    
+    
+            <tr>
+                <td><label for="K">Kelvin</label></td>
+                <td><input type="number" id="K"></td>
+                <td>K</td>
+    </tr>
+
+    <tr>
+        <td colspan="3" align="center">
+        
+        <button type="button" onclick="convert()">Converter</button>
+    </td>
+</tr>
+
+    <tr>
+        <td colspan="3">
+            <p>Se preferir, delize a barra para escolher uma temperatura, em graus Celsius:</p>
+            <input type="range" id="celsiusRange" min="-100" max="100" value="0" 
+                   oninput="updatedoslider(this.value)">
+            <output id="valorslider">0</output>°C
+        </td>
+    </tr>
+
+<tr>
+    <td colspan="3" align="center">
+        <div id="emojitemp" style="font-size: 50px; margin: 20px; text-align: center;">🌡️</div>
+    </td>
+</tr>
+
+<tr>
+    <td colspan="3" align="center">
+        <output id="qualtemp" style="text-align: center; margin: 20px;"></output>
+    </td>
+</tr>
+
+    </table>
+   
+
+
+    </form>
+    
+  
+
+    <script type="text/javascript">
+
+        
+
+        // Função para conversão
+        function convert() {
+            let celsius = parseFloat(document.getElementById('C').value);
+            let fahrenheit = parseFloat(document.getElementById('F').value);
+            let kelvin = parseFloat(document.getElementById('K').value);
+
+            // Fazer as coversões
+            if (!isNaN(celsius)) {
+                document.getElementById('F').value = (celsius * 1.8 + 32).toFixed(2);
+                document.getElementById('K').value = (celsius + 273.15).toFixed(2);
+            } else if (!isNaN(fahrenheit)) {
+                celsius = ((fahrenheit - 32) / 1.8).toFixed(2);
+                document.getElementById('C').value = celsius;
+                document.getElementById('K').value = (parseFloat(celsius) + 273.15).toFixed(2);
+            } else if (!isNaN(kelvin)) {
+                celsius = (kelvin - 273.15).toFixed(2);
+                document.getElementById('C').value = celsius;
+                document.getElementById('F').value = ((kelvin - 273.15) * 1.8 + 32).toFixed(2);
+            } else {
+                alert("Por favor, insira um valor para a temperatura numa das caixas.");
+                return;
+            }
+
+       // celsius para um numero e transforma em cor
+       cordofundo(parseFloat(celsius));
+
+       // celsius para um numero e escreve como está a temperatura
+       displayQualTemp(parseFloat(celsius));
+
+            } 
+
+
+
+            function updatedoslider(celsius) {
+
+    // fazer update dos valores do slider
+    document.getElementById('valorslider').innerText = celsius;
+
+    // de acordo com o valor que o utilizador coloca no slider escrevê-lo na caixa dos Celsius
+    document.getElementById('C').value = celsius;
+
+    // fazer as conversões
+    document.getElementById('F').value = (celsius * 1.8 + 32).toFixed(2);
+    document.getElementById('K').value = (parseFloat(celsius) + 273.15).toFixed(2);
+
+    // mudar a cor do fundo e a frase da temperatura
+    cordofundo(parseFloat(celsius));
+    displayQualTemp(parseFloat(celsius));
+}
+
+
+
+            function updateEmoji(celsius) {
+    const emojitemp= document.getElementById("emojitemp");
+
+    if (celsius === "") {
+        emojitemp.innerText = "🌡️"; // emoji que aparece sempre
+        return;
+    }
+
+    celsius = parseFloat(celsius);
+
+    if (celsius < 10) {
+        emojitemp.innerText = "🥶"; // emoji do frio
+    } else if (celsius > 30) {
+        emojitemp.innerText = "🥵"; // emoji do quente
+    } else {
+        emojitemp.innerText = "🙂"; // emoji do ameno
+    }
+}
+
+            function cordofundo(celsius) {
+
+                const h1 = document.getElementById("h1");
+            const h2 = document.getElementById("h2");
+            const qualtemp = document.getElementById('qualtemp');
+
+                const GifFrio = document.getElementById("GifFrio");
+                const MusicaFrio = document.getElementById("MusicaFrio");
+
+                const GifQuente = document.getElementById("GifQuente");
+                const MusicaVerao = document.getElementById("MusicaVerao");
+
+                const GifAmeno = document.getElementById("GifAmeno");
+                const MusicaAmeno = document.getElementById("MusicaAmeno");
+
+                const emojitemp = document.getElementById("emojitemp")
+
+
+            if (celsius < 10) {
+                document.body.style.backgroundColor = "#B3CDC5"; // Temperatura fria
+                h1.style.color = "#253631";
+                h2.style.color = "#2e4740";
+                qualtemp.innerText = "Temperatura fria";
+                emojitemp.innerText = "🥶";
+
+                GifFrio.style.display = "block"; //o gif vai ser mostrado
+                MusicaFrio.play(); //começa a dar a musica do frio
+
+                GifQuente.style.display = "none";
+                MusicaVerao.pause();
+                MusicaVerao.currentTime = 0;
+
+                GifAmeno.style.display = "none";
+                MusicaAmeno.pause();
+                MusicaAmeno.currentTime = 0;
+
+            } else if (celsius > 30) {
+                document.body.style.backgroundColor = "#e48f82"; // Temperatura quente
+                h1.style.color = "#361915";
+                h2.style.color = "#4a231d";
+                qualtemp.innerText = "Temperatura quente";
+                emojitemp.innerText = "🥵";
+
+                GifFrio.style.display = "none"; // o gif vai estar escondido
+                MusicaFrio.pause(); //para de dar a musica do frio
+                MusicaFrio.currentTime = 0; //a musica do frio volta aos zeros
+
+                GifQuente.style.display = "block";
+                MusicaVerao.play(); 
+
+                GifAmeno.style.display = "none";
+                MusicaAmeno.pause();
+                MusicaAmeno.currentTime = 0;
+
+            } else {
+                document.body.style.backgroundColor = "#ffff98"; // Ameno
+                h1.style.color = "#361915";
+                h2.style.color = "#4a231d";
+                qualtemp.innerText = "Temperatura amena";
+                emojitemp.innerText = "🙂";
+
+                GifFrio.style.display = "none";
+                MusicaFrio.pause();
+                MusicaFrio.currentTime = 0;
+
+                GifQuente.style.display = "none";
+                MusicaVerao.pause();
+                MusicaVerao.currentTime = 0;
+
+                GifAmeno.style.display = "block";
+                MusicaAmeno.play(); 
+
+            }
+        }
+        
+
+    </script>
+
+
+    <img id="GifFrio" src="tempfria.gif" style="display: none;">
+    <audio id="MusicaFrio" src="snowmansia.mp3"></audio>
+
+    <img id="GifQuente" src="SummerGif2.gif" style="display: none;">
+    <audio id="MusicaVerao" src="MusicaVerao.mp3"></audio>
+
+    <img id="GifAmeno" src="spring.gif" style="display: none;">
+    <audio id="MusicaAmeno" src="herecomesthesun.mp3"></audio>
+
+
+</body>
+</html>
